@@ -22,7 +22,7 @@ jobs:
 
       - run:
           name: build
-          command: 'npm build'
+          command: 'npm run build'
   deploy:
     machine:
       enabled: true
