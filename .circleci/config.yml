@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.18
 jobs:
   build_project:
     docker:
@@ -27,23 +29,6 @@ jobs:
           root: .
           paths:
             - .
-
-      - run:
-          name: Echo env variables
-          command: |
-            echo $AWS_ACCESS_KEY_ID
-            echo $AWS_SECRET_ACCESS_KEY
-
-      - run:
-          name: Create s3 bucket
-          command: |
-            sudo apt-get -y -qq install awscli
-            aws s3 mb s3://${CIRCLE_BRANCH}-{CIRCLE_BUILD_NUM}
-
-      - run:
-          name: Deploy
-          command: 'aws s3 sync build/ s3://${CIRCLE_BRANCH}-{CIRCLE_BUILD_NUM} --delete'
-
   deploy_project:
     executor: aws-cli/default
     steps:
@@ -68,7 +53,18 @@ workflows:
   build:
     jobs:
       - build_project:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
+
       - deploy_project:
           requires:
             - build_project
           context: aws_keys
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
