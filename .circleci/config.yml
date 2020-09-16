@@ -22,12 +22,12 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-          name: build
-          command: 'npm run build'
+          name: test
+          command: 'npm test'
 
       - run:
-          name: install dependencies
-          command: 'npm install'
+          name: build
+          command: 'npm run build'
 
       - run:
           name: Echo env variables
@@ -35,7 +35,9 @@ jobs:
 
       - run:
           name: Create s3 bucket
-          command: 'aws s3 mb s3://${CIRCLE_BRANCH}-{CIRCLE_BUILD_NUM}'
+          command: |
+            sudo apt-get -y -qq install awscli
+            aws s3 mb s3://${CIRCLE_BRANCH}-{CIRCLE_BUILD_NUM}
 
       - run:
           name: Deploy
