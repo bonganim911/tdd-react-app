@@ -53,18 +53,8 @@ workflows:
   build:
     jobs:
       - build_project:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /.*/
 
       - deploy_project:
           requires:
             - build_project
           context: aws_keys
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /.*/
