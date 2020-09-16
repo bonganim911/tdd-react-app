@@ -31,7 +31,9 @@ jobs:
 
       - run:
           name: Echo env variables
-          command: 'echo $AWS_ACCESS_KEY_ID, $AWS_SECRET_ACCESS_KEY'
+          command: |
+            echo $AWS_ACCESS_KEY_ID
+            echo $AWS_SECRET_ACCESS_KEY
 
       - run:
           name: Create s3 bucket
