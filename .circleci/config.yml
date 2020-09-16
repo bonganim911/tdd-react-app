@@ -2,19 +2,23 @@ version: 2
 jobs:
   build:
     docker:
-      - image: node:8.0.0
-    working_directory: ~/circle-tmp-folder
+      - image: circleci/node:8.11
     steps:
-          - run:
+      - checkout
+      - run:
           name: install dependencies
           command: 'npm install'
+      - run:
           name: build
           command: 'npm build'
   deploy:
     machine:
       enabled: true
-    working_directory: ~/circle-tmp-folder
+    context: AWS_CREDENTIALS
     steps:
       - run:
+          name: "Create s3 bucket"
+          command: 'aws s3 mb s3://${CIRCLE_BRANCH}-{CIRCLE_BUILD_NUM}'
+      - run:
           name: Deploy
-          command: 'aws s3 sync ${source}/ s3://${bucket} --region us-west-2'
+          command: 'aws s3 sync build/ s3://${CIRCLE_BRANCH}-{CIRCLE_BUILD_NUM} --delete'
