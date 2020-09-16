@@ -24,17 +24,34 @@ jobs:
       - run:
           name: build
           command: 'npm run build'
-  deploy:
-    context: aws_keys
-    machine:
-      enabled: true
-    steps:
+
+      - run:
+          name: install dependencies
+          command: 'npm install'
+
       - run:
           name: Echo env variables
           command: 'echo $AWS_ACCESS_KEY_ID, $AWS_SECRET_ACCESS_KEY'
+
       - run:
           name: Create s3 bucket
           command: 'aws s3 mb s3://${CIRCLE_BRANCH}-{CIRCLE_BUILD_NUM}'
+
       - run:
           name: Deploy
           command: 'aws s3 sync build/ s3://${CIRCLE_BRANCH}-{CIRCLE_BUILD_NUM} --delete'
+
+#  deploy:
+#    context: aws_keys
+#    machine:
+#      enabled: true
+#    steps:
+#      - run:
+#          name: Echo env variables
+#          command: 'echo $AWS_ACCESS_KEY_ID, $AWS_SECRET_ACCESS_KEY'
+#      - run:
+#          name: Create s3 bucket
+#          command: 'aws s3 mb s3://${CIRCLE_BRANCH}-{CIRCLE_BUILD_NUM}'
+#      - run:
+#          name: Deploy
+#          command: 'aws s3 sync build/ s3://${CIRCLE_BRANCH}-{CIRCLE_BUILD_NUM} --delete'
