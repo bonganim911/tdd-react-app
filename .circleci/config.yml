@@ -9,7 +9,7 @@ jobs:
           name: install dependencies
           command: 'npm install'
           name: build
-            command: 'npm build'
+          command: 'npm build'
   deploy:
     machine:
       enabled: true
