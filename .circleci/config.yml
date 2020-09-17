@@ -56,4 +56,4 @@ workflows:
       - deploy_project:
           requires:
             - build_project
-          context: personal_context
+          context: aws_mck_context
