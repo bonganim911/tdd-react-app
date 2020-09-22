@@ -38,10 +38,10 @@ jobs:
           profile-name: default
       - run:
           name: Create s3 bucket
-          command: aws s3 mb s3://${CIRCLE_BRANCH}
+          command: aws s3 mb s3://${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}
       - run:
           name: Upload file to S3
-          command: aws s3 sync ./build/ s3://${CIRCLE_BRANCH} --delete
+          command: aws s3 sync ./build/ s3://${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM} --delete
   deploy_cloudfront:
       executor: aws-cli/default
       steps:
@@ -52,7 +52,7 @@ jobs:
         - run:
             name: Create cloudfront distribution
             command: aws cloudfront create-distribution \
-                    --origin-domain-name ${CIRCLE_BRANCH}.s3.amazonaws.com \
+                    --origin-domain-name ${CIRCLE_BRANCH}-${CIRCLE_PREVIOUS_BUILD_NUM}.s3.amazonaws.com \
                     --default-root-object index.html
 
 workflows:
