@@ -37,9 +37,9 @@ jobs:
       - aws-cli/setup:
           profile-name: default
       - run:
-          name: Create s3 bucket
+          name: "Create s3 bucket"
           command: aws s3 mb s3://${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}
-          name: Upload file to S3
+          name: "Upload file to S3"
           command: aws s3 sync ./build/ s3://${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM} --delete
 
 workflows:
