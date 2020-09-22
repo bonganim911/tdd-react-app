@@ -37,11 +37,23 @@ jobs:
       - aws-cli/setup:
           profile-name: default
       - run:
-          name: "Create s3 bucket"
+          name: Create s3 bucket
           command: aws s3 mb s3://${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}
       - run:
           name: Upload file to S3
           command: aws s3 sync ./build/ s3://${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM} --delete
+  deploy_cloudfront:
+      executor: aws-cli/default
+      steps:
+        - attach_workspace:
+            at: .
+        - aws-cli/setup:
+            profile-name: default
+        - run:
+            name: Create cloudfront distribution
+            command: aws cloudfront create-distribution \
+                    --origin-domain-name ${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}.s3.amazonaws.com \
+                    --default-root-object index.html
 
 workflows:
   version: 2
@@ -51,4 +63,8 @@ workflows:
       - deploy_project:
           requires:
             - build_project
+          context: aws_mck_context
+      - deploy_cloudfront:
+          requires:
+            - deploy_project
           context: aws_mck_context
