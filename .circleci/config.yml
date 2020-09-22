@@ -58,7 +58,8 @@ workflows:
             - build_project
           filters:
             branches:
-              - master
-              - staging
-              - dev
+              only:
+                - master
+                - staging
+                - dev
           context: aws_mck_context
