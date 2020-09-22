@@ -43,10 +43,10 @@ jobs:
             echo $AWS_SECRET_ACCESS_KEY
       - run:
           name: Create s3 bucket
-          command: aws s3 mb s3://${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}
+          command: aws s3 mb s3://${CIRCLE_BRANCH}
       - run:
           name: Upload file to S3
-          command: aws s3 sync ./build/ s3://${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM} --delete
+          command: aws s3 sync ./build/ s3://${CIRCLE_BRANCH} --delete
 
 workflows:
   version: 2
@@ -56,4 +56,9 @@ workflows:
       - deploy_project:
           requires:
             - build_project
+          filters:
+            branches:
+              - master
+              - staging
+              - dev
           context: aws_mck_context
