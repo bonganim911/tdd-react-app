@@ -44,7 +44,9 @@ jobs:
           command: aws s3 sync ./build/ s3://deploys/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
       - run:
           name: Upload file to S3
-          command: cat ${CIRCLE_BUILD_NUM} > LIVE.txt &&  aws s3 sync LIVE.txt s3://deploys/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}
+          command: |
+            cat ${CIRCLE_BUILD_NUM} > LIVE.txt 
+            aws s3 sync ./LIVE.txt s3://deploys/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}
 
   deploy_cloudfront:
       executor: aws-cli/default
@@ -66,7 +68,7 @@ workflows:
           requires:
             - build_project
           context: aws_mck_context
-      - deploy_cloudfront:
-          requires:
-            - s3_bucket_create_deploy
-          context: aws_mck_context
+      # - deploy_cloudfront:
+      #     requires:
+      #       - s3_bucket_create_deploy
+      #     context: aws_mck_context
