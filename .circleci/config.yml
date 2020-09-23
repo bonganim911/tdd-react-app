@@ -45,8 +45,8 @@ jobs:
       - run:
           name: Upload file to S3
           command: |
-            cat ${CIRCLE_BUILD_NUM} > LIVE.txt 
-            aws s3 sync ./LIVE.txt s3://deploys/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}
+            echo ${CIRCLE_BUILD_NUM} > LIVE.txt 
+            # aws s3 sync ./LIVE.txt s3://deploys/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}
 
   deploy_cloudfront:
       executor: aws-cli/default
