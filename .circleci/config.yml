@@ -29,7 +29,7 @@ jobs:
           root: .
           paths:
             - .
-  deploy_project:
+  s3_bucket_create_deploy:
     executor: aws-cli/default
     steps:
       - attach_workspace:
@@ -58,7 +58,7 @@ workflows:
   build:
     jobs:
       - build_project
-      - deploy_project:
+      - s3_bucket_create_deploy:
           requires:
             - build_project
           context: aws_mck_context
