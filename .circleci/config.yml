@@ -64,5 +64,5 @@ workflows:
           context: aws_mck_context
       - deploy_cloudfront:
           requires:
-            - deploy_project
+            - s3_bucket_create_deploy
           context: aws_mck_context
