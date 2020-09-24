@@ -42,9 +42,7 @@ jobs:
       - run:
           name: upgrade aws cli
           command: |
-            sudo curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awsclibundle.zip"
-            unzip awscli-bundle.zip
-            sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+            curl -L https://github.com/bep/s3deploy/releases/download/v2.3.0/s3deploy_2.3.0_Linux-64bit.tar.gz | tar xvz
       - run:
           name: aws config key
           command: |
