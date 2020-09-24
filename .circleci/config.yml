@@ -43,12 +43,7 @@ jobs:
           command: |
             aws configure --profile default set aws_access_key_id AKIA554BKGTHBIICH44Y
             aws configure --profile default set aws_secret_access_key J8CNXVcbnqkUxT15VICuye92qgVskFiNkhheTidIa
-            aws configure --profile default set region us-east-2
-      - run:
-          name: install aws cli
-          command: |
-            sudo apt-get update 
-            sudo apt-get install -y awscli    
+            aws configure --profile default set region us-east-2   
       - run:
           name: Upload assests to S3
           command: |
