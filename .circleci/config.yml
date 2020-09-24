@@ -49,6 +49,7 @@ jobs:
             cd Python-3.6.0/
             ./configure
             sudo make altinstall
+            sudo apt-get -y install python3-pip
             # sudo apt -y install software-properties-common
             # sudo add-apt-repository -y  ppa:deadsnakes/ppa
             # sudo sudo apt install python3\.8
