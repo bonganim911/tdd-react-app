@@ -43,7 +43,7 @@ jobs:
           command: |
             sudo apt update
             sudo apt -y install software-properties-common
-            sudo add-apt-repository ppa:deadsnakes/ppa
+            sudo add-apt-repository -y ppa:deadsnakes/ppa
             sudo apt -y install python3.7
             # sudo curl -O https://bootstrap.pypa.io/get-pip.py
             # sudo python3.7 get-pip.py
