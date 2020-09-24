@@ -3,6 +3,7 @@ jobs:
   build_project:
     docker:
       - image: circleci/node:8.11
+    context: aws_mck_context
     steps:
       - checkout
       - restore_cache:
