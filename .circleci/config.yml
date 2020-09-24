@@ -39,6 +39,17 @@ jobs:
             sudo apt-get update 
             sudo apt-get install -y awscli
       - run:
+          name: aws config key
+          command: |
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile default
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile default
+            aws configure set region $AWS_DEFAULT_REGION --profile default
+      - run:
+          name: install aws cli
+          command: |
+            sudo apt-get update 
+            sudo apt-get install -y awscli    
+      - run:
           name: Upload assests to S3
           command: |
             aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
