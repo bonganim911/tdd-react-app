@@ -40,12 +40,13 @@ jobs:
       #     name: Create s3 bucket
       #     command: aws s3 mb s3://${CIRCLE_PROJECT_REPONAME}
       - run:
-          name: Upload file to S3
+          name: Upload assests to S3
           command: aws s3 sync ./build/ s3://${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
       - run:
           name: Upload file to S3
           command: |
             echo ${CIRCLE_BUILD_NUM} > LIVE.txt 
+            echo ls -al
             # aws s3 sync ./LIVE.txt s3://${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}
 
   deploy_cloudfront:
