@@ -36,9 +36,9 @@ jobs:
           at: .
       - aws-cli/setup:
           profile-name: default
-      # - run:
-      #     name: Create s3 bucket
-      #     command: aws s3 mb s3://deploys
+      - run:
+          name: Create s3 bucket
+          command: aws s3 mb s3://deploys
       - run:
           name: Upload file to S3
           command: aws s3 sync ./build/ s3://deploys/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/ --delete
