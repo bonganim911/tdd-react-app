@@ -49,7 +49,7 @@ jobs:
             cd Python-3.6.0/
             ./configure
             sudo make altinstall
-            sudo apt-get -y install python3-pip
+            # sudo apt-get -y install python3-pip
             # sudo apt -y install software-properties-common
             # sudo add-apt-repository -y  ppa:deadsnakes/ppa
             # sudo sudo apt install python3\.8
@@ -60,7 +60,7 @@ jobs:
             # sudo apt install python3.7.4
             # sudo curl -O https://bootstrap.pypa.io/get-pip.py
             # sudo python3.7 get-pip.py
-            sudo pip -y install awscli --upgrade
+            sudo pip3 -y install awscli --upgrade
       - run:
           name: aws config key
           command: |
