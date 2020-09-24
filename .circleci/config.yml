@@ -38,15 +38,15 @@ jobs:
           profile-name: default
       - run:
           name: Create s3 bucket
-          command: aws s3 mb s3://deploys
+          command: aws s3 mb s3://${CIRCLE_PROJECT_REPONAME
       - run:
           name: Upload file to S3
-          command: aws s3 sync ./build/ s3://deploys/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/ --delete
+          command: aws s3 sync ./build/ s3://${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/ --delete
       - run:
           name: Upload file to S3
           command: |
             echo ${CIRCLE_BUILD_NUM} > LIVE.txt 
-            # aws s3 sync ./LIVE.txt s3://deploys/${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}
+            # aws s3 sync ./LIVE.txt s3://${CIRCLE_PROJECT_REPONAME}-${CIRCLE_BRANCH}
 
   deploy_cloudfront:
       executor: aws-cli/default
