@@ -32,14 +32,14 @@ jobs:
           paths:
             - .
   s3_bucket_create_deploy:
-    # docker:
-    #   - image: circleci/aws-cli@0.1.18
+    docker:
+      - image: circleci/aws-cli@0.1.18
     executor: aws-cli/default
     steps:
       - attach_workspace:
           at: .
-      - aws-cli/setup:
-          profile-name: default
+      # - aws-cli/setup:
+      #     profile-name: default
       - run:
           name: Upload assests to S3
           command: aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
