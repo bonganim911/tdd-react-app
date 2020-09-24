@@ -43,6 +43,7 @@ jobs:
           name: upgrade aws cli
           command: |
             curl -L https://github.com/bep/s3deploy/releases/download/v2.3.0/s3deploy_2.3.0_Linux-64bit.tar.gz | tar xvz
+            ls -al
       - run:
           name: aws config key
           command: |
