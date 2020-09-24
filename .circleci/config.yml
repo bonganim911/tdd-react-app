@@ -36,9 +36,14 @@ jobs:
           at: .
       - aws-cli/setup:
           profile-name: default
-      # - run:
-      #     name: Create s3 bucket
-      #     command: aws s3 mb s3://${CIRCLE_PROJECT_REPONAME}
+      - run:
+          name: Create s3 bucket
+          command: |
+            if [[ -z $(aws s3api head-bucket --bucket ${CIRCLE_PROJECT_REPONAME}) ]]; then
+              echo "bucket exists"
+            else
+              aws s3 mb s3://${CIRCLE_PROJECT_REPONAME}
+            fi
       - run:
           name: Upload assests to S3
           command: aws s3 sync ./build/ s3://${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
@@ -47,7 +52,7 @@ jobs:
           command: |
             echo ${CIRCLE_BUILD_NUM} > LIVE.txt 
             ls -al
-            aws s3 sync LIVE.txt s3://${CIRCLE_PROJECT_REPONAME}/
+            aws s3 sync /LIVE.txt s3://${CIRCLE_PROJECT_REPONAME}/
 
   deploy_cloudfront:
       executor: aws-cli/default
