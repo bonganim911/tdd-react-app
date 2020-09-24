@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   build_project:
     docker:
-      - image: circleci/node:12.0
+      - image: circleci/node:8.11
     context: aws_mck_context
     steps:
       - checkout
@@ -18,6 +18,9 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: test
+          command: 'npm test'
       - run:
           name: build
           command: 'npm run build'
@@ -35,7 +38,7 @@ jobs:
           command: |
             sudo apt-get update 
             sudo apt-get install -y awscli
-            pip3 install awscli --upgrade --user
+            pip install awscli --upgrade --user
       - run:
           name: aws config key
           command: |
