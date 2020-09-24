@@ -41,9 +41,9 @@ jobs:
       - run:
           name: aws config key
           command: |
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile default
-            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile default
-            aws configure set region $AWS_DEFAULT_REGION --profile default
+            aws configure --profile default set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure --profile default set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            aws configure --profile default set region $AWS_DEFAULT_REGION
       - run:
           name: install aws cli
           command: |
