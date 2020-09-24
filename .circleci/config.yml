@@ -50,8 +50,9 @@ jobs:
             ./configure
             sudo make altinstall
             python --version
+            sudo apt -y install python3
             sudo curl -O https://bootstrap.pypa.io/get-pip.py
-            sudo python3.7 get-pip.py
+            sudo python2.7.9 get-pip.py
             sudo pip3 -y install awscli --upgrade
             # sudo apt-get -y install python3-pip
             # sudo apt -y install software-properties-common
