@@ -55,7 +55,7 @@ jobs:
           command: |
             ls -al
             pwd
-            aws s3 sync LIVE.txt s3://deploys
+            aws s3 sync LIVE.txt s3://deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/
 
   deploy_cloudfront:
       executor: aws-cli/default
