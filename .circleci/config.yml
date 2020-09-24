@@ -59,7 +59,7 @@ jobs:
             # sudo apt install python3.7.4
             # sudo curl -O https://bootstrap.pypa.io/get-pip.py
             # sudo python3.7 get-pip.py
-            # sudo pip -y install awscli --upgrade
+            sudo pip -y install awscli --upgrade
       - run:
           name: aws config key
           command: |
