@@ -41,8 +41,8 @@ jobs:
       - run:
           name: upgrade aws cli
           command: |
-            apt-get -y -qq install python3.4-dev
-            curl -O https://bootstrap.pypa.io/get-pip.py
+            sudo apt-get -y -qq install python3.4-dev
+            sudo curl -O https://bootstrap.pypa.io/get-pip.py
             sudo python3.4 get-pip.py
             sudo pip install awscli --upgrade
       - run:
