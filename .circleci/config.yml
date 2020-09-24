@@ -3,7 +3,6 @@ jobs:
   build_project:
     docker:
       - image: circleci/node:8.11
-      - image: circleci/aws-cli@0.1.18
     steps:
       - checkout
       - restore_cache:
@@ -35,7 +34,9 @@ jobs:
           at: .
       - run:
           name: Upload assests to S3
-          command: aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
+        command: |
+          apt-get update && apt-get install -y awscli
+          aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
       - run:
           name: Upload version file to S3
           command: |
