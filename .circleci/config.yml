@@ -25,6 +25,9 @@ jobs:
       - run:
           name: build
           command: 'npm run build'
+      - run:
+          name: create version file
+          command: echo ${CIRCLE_BUILD_NUM} > LIVE.txt
       - persist_to_workspace:
           root: .
           paths:
@@ -48,12 +51,11 @@ jobs:
           name: Upload assests to S3
           command: aws s3 sync ./build/ s3://${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
       - run:
-          name: Upload file to S3
+          name: Upload version file to S3
           command: |
-            echo ${CIRCLE_BUILD_NUM} > LIVE.txt 
             ls -al
             pwd
-            # aws s3 sync ./LIVE.txt s3://${CIRCLE_PROJECT_REPONAME}/
+            aws s3 sync ./LIVE.txt s3://${CIRCLE_PROJECT_REPONAME}/
 
   deploy_cloudfront:
       executor: aws-cli/default
