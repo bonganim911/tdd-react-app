@@ -42,20 +42,20 @@ jobs:
       - run:
           name: Create s3 bucket
           command: |
-            if [[ -z $(aws s3api head-bucket --bucket ${CIRCLE_PROJECT_REPONAME}) ]]; then
+            if [[ -z $(aws s3api head-bucket --bucket deploys) ]]; then
               echo "bucket exists"
             else
-              aws s3 mb s3://${CIRCLE_PROJECT_REPONAME}
+              aws s3 mb s3://deploys
             fi
       - run:
           name: Upload assests to S3
-          command: aws s3 sync ./build/ s3://${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
+          command: aws s3 sync ./build/ s3://deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
       - run:
           name: Upload version file to S3
           command: |
             ls -al
             pwd
-            aws s3 sync LIVE.txt s3://${CIRCLE_PROJECT_REPONAME}
+            aws s3 sync LIVE.txt s3://deploys
 
   deploy_cloudfront:
       executor: aws-cli/default
