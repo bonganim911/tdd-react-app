@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   build_project:
     docker:
-      - image: circleci/node:8.11
+      - image: circleci/node:12.0
     context: aws_mck_context
     steps:
       - checkout
@@ -18,9 +18,6 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run:
-          name: test
-          command: 'npm test'
       - run:
           name: build
           command: 'npm run build'
