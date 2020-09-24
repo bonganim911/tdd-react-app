@@ -38,14 +38,13 @@ jobs:
           command: |
             sudo apt-get update 
             sudo apt-get install -y awscli --upgrade 
-            curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awsclibundle.zip"
-            unzip awscli-bundle.zip
-            ./awscli-bundle/install -b ~/bin/aws
       - run:
           name: upgrade aws cli
           command: |
-            curl -L https://github.com/bep/s3deploy/releases/download/v2.3.0/s3deploy_2.3.0_Linux-64bit.tar.gz | tar xvz
-            ls -al
+            apt-get -y -qq install python3.4-dev
+            curl -O https://bootstrap.pypa.io/get-pip.py
+            sudo python3.4 get-pip.py
+            sudo pip install awscli --upgrade
       - run:
           name: aws config key
           command: |
