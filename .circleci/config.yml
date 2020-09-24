@@ -34,9 +34,10 @@ jobs:
           at: .
       - run:
           name: Upload assests to S3
-        command: |
-          apt-get update && apt-get install -y awscli
-          aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
+          command: |
+            apt-get update 
+            apt-get install -y awscli
+            aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
       - run:
           name: Upload version file to S3
           command: |
