@@ -47,7 +47,7 @@ jobs:
           command: |
             ls -al
             pwd
-            aws s3 sync LIVE.txt s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/
+            aws s3 cp LIVE.txt s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/LIVE.txt
 
   deploy_cloudfront:
       executor: aws-cli/default
