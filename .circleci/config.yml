@@ -38,7 +38,13 @@ jobs:
           command: |
             sudo apt-get update 
             sudo apt-get install -y awscli --upgrade 
-            sudo apt-get install awscli --upgrade 
+            sudo curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awsclibundle.zip"
+      - run:
+          name: upgrade aws cli
+          command: |
+            sudo curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awsclibundle.zip"
+            unzip awscli-bundle.zip
+            sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
       - run:
           name: aws config key
           command: |
