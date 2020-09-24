@@ -31,15 +31,8 @@ jobs:
           root: .
           paths:
             - .
-  s3_bucket_create_deploy:
-    docker:
-      - image: circleci/aws-cli@0.1.18
-    executor: aws-cli/default
-    steps:
-      - attach_workspace:
+       - attach_workspace:
           at: .
-      # - aws-cli/setup:
-      #     profile-name: default
       - run:
           name: Upload assests to S3
           command: aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/
@@ -50,17 +43,6 @@ jobs:
             pwd
             aws s3 cp LIVE.txt s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/LIVE.txt
 
-  deploy_cloudfront:
-      executor: aws-cli/default
-      steps:
-        - attach_workspace:
-            at: .
-        - aws-cli/setup:
-            profile-name: default
-        - run:
-            name: Create cloudfront distribution
-            command: aws cloudfront create-distribution --origin-domain-name ${CIRCLE_BRANCH}-${CIRCLE_PREVIOUS_BUILD_NUM}.s3.amazonaws.com --default-root-object index.html
-
 workflows:
   version: 2
   build:
@@ -70,7 +52,3 @@ workflows:
           requires:
             - build_project
           context: aws_mck_context
-      # - deploy_cloudfront:
-      #     requires:
-      #       - s3_bucket_create_deploy
-      #     context: aws_mck_context
