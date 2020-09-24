@@ -38,7 +38,9 @@ jobs:
           command: |
             sudo apt-get update 
             sudo apt-get install -y awscli --upgrade 
-            sudo curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awsclibundle.zip"
+            curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awsclibundle.zip"
+            unzip awscli-bundle.zip
+            ./awscli-bundle/install -b ~/bin/aws
       - run:
           name: upgrade aws cli
           command: |
