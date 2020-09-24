@@ -44,9 +44,9 @@ jobs:
             sudo apt update
             sudo apt install software-properties-common
             sudo add-apt-repository ppa:deadsnakes/ppa
-            sudo apt install python3.7
+            sudo apt -y install python3.7
             sudo curl -O https://bootstrap.pypa.io/get-pip.py
-            sudo python3.4 get-pip.py
+            sudo python3.7 get-pip.py
             sudo pip install awscli --upgrade
       - run:
           name: aws config key
