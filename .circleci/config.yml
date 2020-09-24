@@ -31,7 +31,7 @@ jobs:
           root: .
           paths:
             - .
-       - attach_workspace:
+      - attach_workspace:
           at: .
       - run:
           name: Upload assests to S3
