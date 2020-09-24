@@ -41,7 +41,7 @@ jobs:
       - run:
           name: upgrade aws cli
           command: |
-            sudo apt-get -y -qq install python3.5.0
+            sudo apt-get -y -qq install python3.7
             sudo curl -O https://bootstrap.pypa.io/get-pip.py
             sudo python3.4 get-pip.py
             sudo pip install awscli --upgrade
