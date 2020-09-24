@@ -47,7 +47,7 @@ jobs:
           command: |
             echo ${CIRCLE_BUILD_NUM} > LIVE.txt 
             ls -al
-            aws s3 sync ./LIVE.txt s3://${CIRCLE_PROJECT_REPONAME}
+            aws s3 sync LIVE.txt s3://${CIRCLE_PROJECT_REPONAME}/
 
   deploy_cloudfront:
       executor: aws-cli/default
