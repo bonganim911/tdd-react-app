@@ -62,10 +62,10 @@ jobs:
             aws configure --profile default set aws_secret_access_key J8CNXVcbnqkUxT15VICuye92qgVskFiNkhheTidIa
             aws configure --profile default set region us-west-2
             aws --version   
-      # - run:
-      #     name: Upload assests to S3
-      #     command: |
-      #       aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/ --region us-west-2
+      - run:
+          name: Upload assests to S3
+          command: |
+            aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/ --region us-west-2
       # - run:
       #     name: Upload version file to S3
       #     command: |
