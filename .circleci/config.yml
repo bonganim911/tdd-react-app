@@ -6,75 +6,63 @@ jobs:
     context: aws_mck_context
     steps:
       - checkout
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ checksum "package.json" }}
-      #       # fallback to using the latest cache if no exact match is found
-      #       - v1-dependencies-
-      # - run:
-      #     name: install dependencies
-      #     command: 'npm install'
-      # - save_cache:
-      #     paths:
-      #       - node_modules
-      #     key: v1-dependencies-{{ checksum "package.json" }}
-      # - run:
-      #     name: test
-      #     command: 'npm test'
-      # - run:
-      #     name: build
-      #     command: 'npm run build'
-      # - run:
-      #     name: create version file
-      #     command: echo ${CIRCLE_BUILD_NUM} > LIVE.txt
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - .
-      # - attach_workspace:
-      #     at: .
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
       - run:
-          name: install aws cli
-          command: |
-            sudo apt-get update 
-            sudo apt-get install -y awscli
+          name: install dependencies
+          command: 'npm install'
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run:
-          name: upgrade aws cli
+          name: test
+          command: 'npm test'
+      - run:
+          name: build
+          command: 'npm run build'
+      - run:
+          name: create version file
+          command: echo ${CIRCLE_BUILD_NUM} > LIVE.txt
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+      - attach_workspace:
+          at: .
+
+  s3_bucket_create_deploy:
+    docker:
+      - image: circleci/python:3.6.3
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install AWS CLI
           command: |
-            sudo apt update
-            sudo apt install build-essential checkinstall
-            sudo apt install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
-            wget https://www.python.org/ftp/python/3.6.0/Python-3.6.0.tar.xz
-            tar xvf Python-3.6.0.tar.xz
-            cd Python-3.6.0/
-            ./configure
-            sudo make altinstall
-            python --version
-            sudo apt -y install python3
-            sudo curl -O https://bootstrap.pypa.io/get-pip.py
-            sudo python get-pip.py
-            pip --version
             sudo pip install awscli --upgrade
       - run:
-          name: aws config key
+          name: Set AWS credentials
           command: |
-            aws configure --profile default set aws_access_key_id AKIA554BKGTHBIICH44Y
-            aws configure --profile default set aws_secret_access_key J8CNXVcbnqkUxT15VICuye92qgVskFiNkhheTidIa
-            aws configure --profile default set region us-west-2
+            # aws configure --profile default set aws_access_key_id AKIA554BKGTHBIICH44Y
+            # aws configure --profile default set aws_secret_access_key J8CNXVcbnqkUxT15VICuye92qgVskFiNkhheTidIa
+            # aws configure --profile default set region us-west-2
+            aws configure set aws_access_key_id AKIA554BKGTHBIICH44Y
+            aws configure set aws_secret_access_key J8CNXVcbnqkUxT15VICuye92qgVskFiNkhheTidIa
             aws --version   
       - run:
           name: Upload assests to S3
           command: |
-            aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/ --region us-west-2
-      # - run:
-      #     name: Upload version file to S3
-      #     command: |
-      #       ls -al
-      #       pwd
-      #       aws s3 cp LIVE.txt s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/LIVE.txt 
-
+            aws s3 sync ./build/ s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/${CIRCLE_BUILD_NUM}/ --region us-west-1
+            aws s3 cp LIVE.txt s3://finlab-deploys/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}/LIVE.txt
 workflows:
   version: 2
   build:
     jobs:
       - build_project
+      - s3_bucket_create_deploy:
+          requires:
+            - build_project
