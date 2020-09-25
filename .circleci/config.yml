@@ -52,7 +52,7 @@ jobs:
             python --version
             sudo apt -y install python3
             sudo curl -O https://bootstrap.pypa.io/get-pip.py
-            sudo python2.7.9 get-pip.py
+            sudo python get-pip.py
             pip --version
             # sudo pip3 -y install awscli --upgrade
       - run:
