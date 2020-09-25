@@ -54,7 +54,7 @@ jobs:
             sudo curl -O https://bootstrap.pypa.io/get-pip.py
             sudo python get-pip.py
             pip --version
-            # sudo pip3 -y install awscli --upgrade
+            sudo pip -y install awscli --upgrade
       - run:
           name: aws config key
           command: |
